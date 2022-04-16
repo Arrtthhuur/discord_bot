@@ -574,14 +574,12 @@ async def help(ctx, args=None):
     if not args:
         h_embed.clear_fields()
         h_embed.set_author(name="=============   Commandes Disponibles   =============")
-        h_embed.add_field(name="------------------   ???   -------------------",
+        h_embed.add_field(name="---------------------------------   Misc   ---------------------------------",
                           value="`!...`", inline=False)
-        h_embed.add_field(name="`!hello`",
-                          value="Coucou", inline=True)
-        h_embed.add_field(name="`!coffee`",
-                          value="Petit cafe?", inline=True)
-        h_embed.add_field(name="`!refresh`",
-                          value="Refresh le compteur d'humains", inline=False)
+        h_embed.add_field(name="`!help <commande>`", value="Help", inline=True)
+        h_embed.add_field(name="`!hello`", value="Couscous", inline=True)
+        h_embed.add_field(name="`!coffee`", value="Petit cafe?", inline=True)
+        h_embed.add_field(name="`!refresh`", value="Refresh le compteur d'humains", inline=False)
 
         h_embed.add_field(name="---------------------------------   Move   ---------------------------------",
                           value="`!...`", inline=False)
@@ -615,7 +613,7 @@ async def help(ctx, args=None):
                         inline=False)
         h_embed.add_field(name="`!unall` / `!ua`", value="Un-mute et Un-deafen tous les membres de ton VC",
                         inline=False)
-        h_embed.add_field(name="`!timeout <membre> <temps> <unite>` / `!t <membre> <temps> <unite>`", value="Timeout un membre "
+        h_embed.add_field(name="`!timeout <membre> <temps> <unite>` / `!t <m> <t> <u>`", value="Timeout un membre "
                                                                                         "pour un certain temps",
                         inline=False)
     elif args in command_names_list:
