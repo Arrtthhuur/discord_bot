@@ -227,7 +227,7 @@ async def join(ctx, faction):
 async def move(ctx, member_to_move, channel_dest):
     """
     !move <membre> <channel>
-    Deplace un membre vers un channel.
+    Deplace un membre vers un channel vocal.
     """
     channel = discord.utils.get(ctx.guild.voice_channels, name=channel_dest)
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
@@ -364,7 +364,7 @@ async def unmute(ctx, member_to_unmute):
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_unmute)
     if not member:
-        return await member_not_found_error(member_to_unmute)
+        return await member_not_found_error(ctx, member_to_unmute)
     if member.voice:
         if author.guild_permissions.mute_members:
             await member.edit(mute=False)
