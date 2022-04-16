@@ -581,7 +581,7 @@ async def help(ctx, args=None):
         h_embed.add_field(name="`!coffee`",
                           value="Petit cafe?", inline=True)
         h_embed.add_field(name="`!refresh`",
-                          value="Refresh le compteur d'humains", inline=True)
+                          value="Refresh le compteur d'humains", inline=False)
 
         h_embed.add_field(name="---------------------------------   Move   ---------------------------------",
                           value="`!...`", inline=False)
