@@ -431,7 +431,7 @@ async def all(ctx):
     if author.voice:  # check if the user is in a voice channel
         if author.guild_permissions.deafen_members and author.guild_permissions.mute_members: # check if the user has deafen and mute members permission
             for member in author.voice.channel.members:
-                if not member.bot and not author:
+                if not member.bot and member != author:
                     await member.edit(mute=True)
                     await member.edit(deafen=True)
 
