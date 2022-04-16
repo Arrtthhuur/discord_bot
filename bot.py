@@ -540,7 +540,7 @@ async def timeout(ctx, member_to_timeout, duration=0, *, unit=None):
     member = discord.utils.get(ctx.guild.members, name=member_to_timeout)
     if not member:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value="Tu n'as pas de roles")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_timeout} n'existe pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
         return
     s_embed.clear_fields()
