@@ -149,7 +149,7 @@ async def on_member_join(member):
     role = discord.utils.get(member.guild.roles, id=VAGABOND_ROLE)
     await member.add_roles(role)
     await gen_chan.send(f"Bienvenue {member.mention}, tu fais maintenant "
-                                                  f"partie des vagabonds, rejoins la faction A ou B!")
+                                                  f"partie des vagabonds, rejoins la faction A, B ou C!")
 
 
 @bot.event
@@ -300,7 +300,7 @@ async def secret(ctx, member_to_move):
 @bot.command(aliases=["se"])
 async def sexit(ctx, member_to_move):
     """
-    !sexit <membre> / !s <membre>
+    !sexit <membre> / !se <membre>
     Sors un membre de ton VC secret.
     """
     author = ctx.author
@@ -313,6 +313,9 @@ async def sexit(ctx, member_to_move):
         if author.guild_permissions.move_members and secret_role:
             await member.move_to(channel)
             await member.remove_roles(secret_role)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Removed {member.name} to {channel.name}")
+            await ctx.send(f"{author.mention}", embed=s_embed)
         else:
             await not_mover_error(ctx)
     else:
@@ -552,7 +555,7 @@ async def cm_not_found_error(ctx, channel, member):
 
 async def not_voice_connected_error(ctx, member):
     e_embed.clear_fields()
-    e_embed.add_field(name="Erreur", value=f"**{member}** n'est pas connecte a un VC.")
+    e_embed.add_field(name="Erreur", value=f"**{member}** n'est pas connecte a un VC")
     await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
 
@@ -592,7 +595,7 @@ async def help(ctx, args=None):
         h_embed.add_field(name="------------------------------   Roles/Reset   ------------------------------",
                           value="`!...`", inline=False)
         h_embed.add_field(name="`!join <faction>` / `!j <faction>`",
-                        value="Rejoins ta faction: A ou B", inline=False)
+                        value="Rejoins ta faction: A, B ou C", inline=False)
         h_embed.add_field(name="`!reset` / `!r`",
                         value="Restaure toi les roles par defaut", inline=False)
 
@@ -605,8 +608,6 @@ async def help(ctx, args=None):
         h_embed.add_field(name="`!deafen <membre>` / `!d <membre>`", value="Deafen un membre specifique",
                         inline=False)
         h_embed.add_field(name="`!undeafen <membre>` / `!ud <membre>`", value="Un-deafen un membre specifique",
-                        inline=False)
-        h_embed.add_field(name="`!undeafenme` / `!udme`", value="Un-deafen toi",
                         inline=False)
         h_embed.add_field(name="`!all` / `!a`", value="Mute et Deafen tous les membres de ton VC",
                         inline=False)
