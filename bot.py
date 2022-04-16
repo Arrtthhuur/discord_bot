@@ -216,13 +216,16 @@ async def move(ctx, member_to_move, channel_dest):
     if member:
         if channel:
             if member.voice:
-                if author.guild_permissions.move_members:
-                    await member.move_to(channel)
-                    s_embed.clear_fields()
-                    s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
-                    await ctx.send(f"{author.mention}", embed=s_embed)
+                if member.voice.channel != channel:
+                    if author.guild_permissions.move_members:
+                        await member.move_to(channel)
+                        s_embed.clear_fields()
+                        s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
+                        await ctx.send(f"{author.mention}", embed=s_embed)
+                    else:
+                        await show_mover_error(ctx)
                 else:
-                    await show_mover_error(ctx)
+                    await show_already_in_channel_error(ctx, member_to_move)
             else:
                 await show_not_voice_connected_error(ctx, member)
         else:
@@ -632,6 +635,11 @@ async def show_not_voice_connected_error(ctx, member):
     e_embed.add_field(name="Erreur", value=f"**{member}** n'est pas connecte a un VC.")
     await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
+
+async def show_already_in_channel_error(ctx, member):
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value=f"**{member}** est deja dans ce VC")
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
 # HELP
 # ==========================================================================================
