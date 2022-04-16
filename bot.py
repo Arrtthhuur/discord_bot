@@ -146,7 +146,7 @@ async def on_member_join(member):
     """Bot welcomes newcomers"""
     await count_members(member)
     gen_chan = bot.get_channel(ARRIVEE_CHAN)
-    role = discord.utils.get(member.guild.roles, name="Vagabond")
+    role = discord.utils.get(member.guild.roles, id=VAGABOND_ROLE)
     await member.add_roles(role)
     await gen_chan.send(f"Bienvenue {member.mention}, tu fais maintenant "
                                                   f"partie des vagabonds, rejoins la faction A ou B!")
@@ -338,7 +338,7 @@ async def mute(ctx, member_to_mute):
         else:
             await not_muter_error(ctx)
     else:
-        await not_voice_connected_error(ctx)
+        await not_voice_connected_error(ctx, member_to_mute)
 
 
 @bot.command(aliases=["u"])
