@@ -591,6 +591,7 @@ async def show_help(ctx, command):
 @bot.command(aliases=["commands", "h"])
 async def help(ctx, args=None):
     command_names_list = [x.name for x in bot.commands]
+    print("", command_names_list)
     if not args:
         h_embed.clear_fields()
         h_embed.set_author(name="=============   Commandes Disponibles   =============")
