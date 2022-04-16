@@ -191,7 +191,7 @@ async def join(ctx, faction):
     vagabond = discord.utils.get(author.guild.roles, id=VAGABOND_ROLE)
     if not guild_roles:  # check if given faction exists
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"La faction <<  **{faction}**  >> n'existe pas")
+        e_embed.add_field(name="Erreur", value=f"La faction **{faction}** n'existe pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
     elif auth_roles:  # check if author not already in faction
         e_embed.clear_fields()
@@ -280,18 +280,17 @@ async def secret(ctx, member_to_move):
     channel = bot.get_channel(SECRET_CHAN)
     if not member:
         return await member_not_found_error(ctx, member_to_move)
-    if ctx.guild:
-        if member.voice:
-            if author.guild_permissions.move_members and secret_role:
-                await member.move_to(channel)
-                await member.add_roles(secret_role)
-                s_embed.clear_fields()
-                s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
-                await ctx.send(f"{author.mention}", embed=s_embed)
-            else:
-                await not_mover_error(ctx)
+    if member.voice:
+        if author.guild_permissions.move_members and secret_role:
+            await member.move_to(channel)
+            await member.add_roles(secret_role)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
+            await ctx.send(f"{author.mention}", embed=s_embed)
         else:
-            await not_voice_connected_error(ctx, member_to_move)
+            await not_mover_error(ctx)
+    else:
+        await not_voice_connected_error(ctx, member_to_move)
 
 
 @bot.command(aliases=["se"])
@@ -306,15 +305,14 @@ async def sexit(ctx, member_to_move):
     channel = bot.get_channel(GENERAL_CHAN)
     if not member:
         return await member_not_found_error(ctx, member_to_move)
-    if ctx.guild:
-        if member.voice:
-            if author.guild_permissions.move_members and secret_role:
-                await member.move_to(channel)
-                await member.remove_roles(secret_role)
-            else:
-                await not_mover_error(ctx)
+    if member.voice:
+        if author.guild_permissions.move_members and secret_role:
+            await member.move_to(channel)
+            await member.remove_roles(secret_role)
         else:
-            await not_voice_connected_error(ctx, member_to_move)
+            await not_mover_error(ctx)
+    else:
+        await not_voice_connected_error(ctx, member_to_move)
 
 
 @bot.command(aliases=["m"])
@@ -327,22 +325,16 @@ async def mute(ctx, member_to_mute):
     member = discord.utils.get(ctx.guild.members, name=member_to_mute)
     if not member:
         return await member_not_found_error(ctx, member_to_mute)
-    if ctx.guild:
-        print("", ctx.guild)
-        if member.voice:
-            if author.guild_permissions.mute_members:
-                await member.edit(mute=True)
-                s_embed.clear_fields()
-                s_embed.set_author(name=f"Muted {member.name}")
-                await ctx.send(f"{ctx.author.mention}", embed=s_embed)
-            else:
-                await not_muter_error(ctx)
+    if member.voice:
+        if author.guild_permissions.mute_members:
+            await member.edit(mute=True)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Muted {member.name}")
+            await ctx.send(f"{ctx.author.mention}", embed=s_embed)
         else:
-            await not_voice_connected_error(ctx)
+            await not_muter_error(ctx)
     else:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value="Erreur de chat.")
-        await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+        await not_voice_connected_error(ctx)
 
 
 @bot.command(aliases=["u"])
@@ -355,21 +347,16 @@ async def unmute(ctx, member_to_unmute):
     member = discord.utils.get(ctx.guild.members, name=member_to_unmute)
     if not member:
         return await member_not_found_error(member_to_unmute)
-    if ctx.guild:
-        if member.voice:
-            if author.guild_permissions.mute_members:
-                await member.edit(mute=False)
-                s_embed.clear_fields()
-                s_embed.set_author(name=f"Un-muted {member.name}")
-                await ctx.send(f"{ctx.author.mention}", embed=s_embed)
-            else:
-                await not_muter_error(ctx)
+    if member.voice:
+        if author.guild_permissions.mute_members:
+            await member.edit(mute=False)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Un-muted {member.name}")
+            await ctx.send(f"{ctx.author.mention}", embed=s_embed)
         else:
-            await not_voice_connected_error(ctx, member_to_unmute)
+            await not_muter_error(ctx)
     else:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value="Erreur de chat.")
-        await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+        await not_voice_connected_error(ctx, member_to_unmute)
 
 
 @bot.command(aliases=["d"])
@@ -382,21 +369,16 @@ async def deafen(ctx, member_to_deafen):
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
     if not member:
         return await member_not_found_error(ctx, member_to_deafen)
-    if ctx.guild:
-        if member.voice:
-            if author.guild_permissions.deafen_members:
-                await member.edit(deafen=True)
-                s_embed.clear_fields()
-                s_embed.set_author(name=f"Deafen {member.name}")
-                await ctx.send(f"{ctx.author.mention}", embed=s_embed)
-            else:
-                await not_muter_error(ctx)
+    if member.voice:
+        if author.guild_permissions.deafen_members:
+            await member.edit(deafen=True)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Deafen {member.name}")
+            await ctx.send(f"{ctx.author.mention}", embed=s_embed)
         else:
-            await not_voice_connected_error(ctx, member_to_deafen)
+            await not_muter_error(ctx)
     else:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value="Erreur de chat.")
-        await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+        await not_voice_connected_error(ctx, member_to_deafen)
 
 
 @bot.command(aliases=["ud"])
@@ -409,21 +391,16 @@ async def undeafen(ctx, member_to_undeafen):
     member = discord.utils.get(ctx.guild.members, name=member_to_undeafen)
     if not member:
         return await member_not_found_error(ctx, member_to_undeafen)
-    if ctx.guild:
-        if member.voice:
-            if author.guild_permissions.deafen_members:
-                await member.edit(deafen=False)
-                s_embed.clear_fields()
-                s_embed.set_author(name=f"Un-deafen {member.name}")
-                await ctx.send(f"{ctx.author.mention}", embed=s_embed)
-            else:
-                await not_muter_error(ctx)
+    if member.voice:
+        if author.guild_permissions.deafen_members:
+            await member.edit(deafen=False)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Un-deafen {member.name}")
+            await ctx.send(f"{ctx.author.mention}", embed=s_embed)
         else:
-            await not_voice_connected_error(ctx, member_to_undeafen)
+            await not_muter_error(ctx)
     else:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value="Erreur de chat.")
-        await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+        await not_voice_connected_error(ctx, member_to_undeafen)
 
 
 @bot.command(aliases=["a"])
@@ -433,13 +410,12 @@ async def all(ctx):
     Mute et deafen tous les membres de ton VC actuel.
     """
     author = ctx.author
-    if ctx.guild:  # check if the msg was in a server's text channel
-        if author.voice:  # check if the user is in a voice channel
-            if author.guild_permissions.deafen_members and author.guild_permissions.mute_members: # check if the user has deafen and mute members permission
-                for member in author.voice.channel.members:
-                    if not member.bot and not author:
-                        await member.edit(mute=True)
-                        await member.edit(deafen=True)
+    if author.voice:  # check if the user is in a voice channel
+        if author.guild_permissions.deafen_members and author.guild_permissions.mute_members: # check if the user has deafen and mute members permission
+            for member in author.voice.channel.members:
+                if not member.bot and not author:
+                    await member.edit(mute=True)
+                    await member.edit(deafen=True)
 
 
 
@@ -450,13 +426,12 @@ async def unall(ctx):
     Un-mute et un-deafen tous les membres de ton VC actuel.
     """
     author = ctx.author
-    if ctx.guild:
-        if author.voice:
-            if author.guild_permissions.deafen_members and author.guild_permissions.mute_members:
-                for member in author.voice.channel.members:
-                    if not member.bot:
-                        await member.edit(mute=False)
-                        await member.edit(deafen=False)
+    if author.voice:
+        if author.guild_permissions.deafen_members and author.guild_permissions.mute_members:
+            for member in author.voice.channel.members:
+                if not member.bot:
+                    await member.edit(mute=False)
+                    await member.edit(deafen=False)
 
 
 @bot.command(aliases=["r"])
@@ -555,19 +530,19 @@ async def not_muter_error(ctx):
 
 async def member_not_found_error(ctx, member):
     e_embed.clear_fields()
-    e_embed.add_field(name="Erreur", value=f"Le membre <<  **{member}**  >> n'existe pas")
+    e_embed.add_field(name="Erreur", value=f"Le membre **{member}** n'existe pas")
     await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
 
 async def channel_not_found_error(ctx, channel):
     e_embed.clear_fields()
-    e_embed.add_field(name="Erreur", value=f"Le channel <<  **{channel}**  >> n'existe pas")
+    e_embed.add_field(name="Erreur", value=f"Le channel **{channel}** n'existe pas")
     await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
 
 async def cm_not_found_error(ctx, channel, member):
     e_embed.clear_fields()
-    e_embed.add_field(name="Erreur", value=f"<<  **{member}**  >> et <<  **{channel}**  >> n'existent pas")
+    e_embed.add_field(name="Erreur", value=f"**{member}** et **{channel}** n'existent pas")
     await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
 
