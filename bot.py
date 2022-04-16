@@ -53,6 +53,7 @@ WAR_ROLE = 963881736016658463
 
 SECRET_CHAN = 964279615541624932
 SECRET_ROLE = 964279750975696946
+ACCEUIL_SECRET_CHAN = 964996079726776400
 
 LINKER_ROLE = 963870403628007475
 VAGABOND_ROLE = 963168526733021254
@@ -325,7 +326,7 @@ async def sexit(ctx, member_to_move=None):
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     secret_role = discord.utils.get(ctx.author.roles, id=SECRET_ROLE)
-    channel = bot.get_channel(GENERAL_CHAN)
+    channel = bot.get_channel(ACCEUIL_SECRET_CHAN)
     if not member:
         return await member_not_found_error(ctx, member_to_move)
     if member.voice:
@@ -600,6 +601,7 @@ async def show_help(ctx, command):
     e_embed.add_field(name="Erreur", value=f"Mauvais usage de la commande")
     await ctx.send(f"{ctx.author.mention}", embed=e_embed)
     await help(ctx, command)
+
 
 # HELP
 # ==========================================================================================
