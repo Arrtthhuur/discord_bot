@@ -79,7 +79,7 @@ e_embed = discord.Embed(color=discord.Color.red())  # Error
 s_embed = discord.Embed(color=discord.Color.green())  # Success
 h_embed = discord.Embed(color=discord.Color.blue())  # Help
 w_embed = discord.Embed(color=discord.Color.dark_red())  # War
-embed = discord.Embed(color=discord.Color.default())  # default
+embed = discord.Embed(color=discord.Color.yellow())  # misc
 
 # Badwords
 badwords = ["fispute", 'tamere', 'sam', 'samuel']
@@ -101,7 +101,6 @@ async def on_message(message):
     Censures profanity.
     Only reacts to commands when entered in the bot channel.
     """
-    print("", message.content)
     role = discord.utils.get(message.author.roles, id=LINKER_ROLE)
     for i in badwords:
         if i in message.content:
@@ -185,7 +184,7 @@ async def hello(ctx):
 @bot.command(aliases=["j"])
 async def join(ctx, faction):
     """
-    !join <faction> \\ !j <faction>
+    !join <faction> / !j <faction>
     Rejoins une faction.
     """
     author = ctx.author
@@ -239,7 +238,7 @@ async def move(ctx, member_to_move, channel_dest):
 @bot.command(aliases=["w"])
 async def war(ctx):
     """
-    !war \\ !w
+    !war / !w
     Deplace tous les membres War dans le channel War.
     """
     channel = bot.get_channel(WAR_CHAN)
@@ -269,7 +268,7 @@ async def war(ctx):
 @bot.command(aliases=["s"])
 async def secret(ctx, member_to_move):
     """
-    !secret <membre> \\ !s <membre>
+    !secret <membre> / !s <membre>
     Deplace un membre vers ton VC secret.
     """
     author = ctx.author
@@ -302,7 +301,7 @@ async def secret(ctx, member_to_move):
 @bot.command(aliases=["se"])
 async def sexit(ctx, member_to_move):
     """
-    !sexit <membre> \\ !s <membre>
+    !sexit <membre> / !s <membre>
     Sors un membre de ton VC secret.
     """
     author = ctx.author
@@ -332,7 +331,7 @@ async def sexit(ctx, member_to_move):
 @bot.command(aliases=["m"])
 async def mute(ctx, member_to_mute):
     """
-    !mute <membre> \\ !m <membre>
+    !mute <membre> / !m <membre>
     Mute un membre.
     """
     author = ctx.author
@@ -366,7 +365,7 @@ async def mute(ctx, member_to_mute):
 @bot.command(aliases=["u"])
 async def unmute(ctx, member_to_unmute):
     """
-    !unmute <membre> \\ !u <membre>
+    !unmute <membre> / !u <membre>
     Un-mute un membre.
     """
     author = ctx.author
@@ -400,7 +399,7 @@ async def unmute(ctx, member_to_unmute):
 @bot.command(aliases=["d"])
 async def deafen(ctx, member_to_deafen):
     """
-    !deafen <membre> \\ !d <membre>
+    !deafen <membre> / !d <membre>
     Deafen un membre.
     """
     author = ctx.author
@@ -434,7 +433,7 @@ async def deafen(ctx, member_to_deafen):
 @bot.command(aliases=["ud"])
 async def undeafen(ctx, member_to_undeafen):
     """
-    !undeafen <membre> \\ !ud <membre>
+    !undeafen <membre> / !ud <membre>
     Un-deafen un membre.
     """
     author = ctx.author
@@ -468,7 +467,7 @@ async def undeafen(ctx, member_to_undeafen):
 @bot.command(aliases=["a"])
 async def all(ctx):
     """
-    !all \\ !a
+    !all / !a
     Mute et deafen tous les membres de ton VC actuel.
     """
     author = ctx.author
@@ -484,7 +483,7 @@ async def all(ctx):
 @bot.command(aliases=["ua"])
 async def unall(ctx):
     """
-    !unall \\ !ua
+    !unall / !ua
     Un-mute et un-deafen tous les membres de ton VC actuel.
     """
     author = ctx.author
@@ -500,7 +499,7 @@ async def unall(ctx):
 @bot.command(aliases=["r"])
 async def reset(ctx):
     """
-    !reset \\ !r
+    !reset / !r
     Reset tes roles.
     """
     user = ctx.author
@@ -520,7 +519,7 @@ async def reset(ctx):
 @bot.command(aliases=["t"])
 async def timeout(ctx, member: discord.Member, duration=0, *, unit=None):
     """
-    !timeout <membre> <temps> <unite> \\ !t <membre> <temps> <unite>
+    !timeout <membre> <temps> <unite> / !t <membre> <temps> <unite>
     Timeout un membre pour un certain temps, en secondes ou minutes.
     """
     e_embed.clear_fields()
@@ -560,7 +559,7 @@ async def refresh(ctx):
 @bot.command(aliases=["c"])
 async def coffee(ctx):
     """
-    !coffee \\ !c
+    !coffee / !c
     Le bot te fait un petit kawa.
     """
     embed.clear_fields()
