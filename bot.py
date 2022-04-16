@@ -79,6 +79,7 @@ e_embed = discord.Embed(color=discord.Color.red())  # Error
 s_embed = discord.Embed(color=discord.Color.green())  # Success
 h_embed = discord.Embed(color=discord.Color.blue())  # Help
 w_embed = discord.Embed(color=discord.Color.dark_red())  # War
+embed = discord.Embed(color=discord.Color.default())  # default
 
 # Badwords
 badwords = ["fispute", 'tamere', 'sam', 'samuel']
