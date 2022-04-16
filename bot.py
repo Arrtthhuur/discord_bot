@@ -192,11 +192,13 @@ async def coffee(ctx):
 
 
 @bot.command(aliases=["j"])
-async def join(ctx, faction):
+async def join(ctx, faction=None):
     """
     !join <faction> / !j <faction>
     Rejoins une faction.
     """
+    if not faction:
+        return await show_help(ctx, 'join')
     author = ctx.author
     guild_roles = discord.utils.get(ctx.guild.roles, name=faction)
     auth_roles = discord.utils.get(ctx.author.roles, name=faction)
@@ -224,11 +226,13 @@ async def join(ctx, faction):
 
 
 @bot.command()
-async def move(ctx, member_to_move, channel_dest):
+async def move(ctx, member_to_move=None, channel_dest=None):
     """
     !move <membre> <channel>
     Deplace un membre vers un channel vocal.
     """
+    if not member_to_move or not channel_dest:
+        return await show_help(ctx, 'move')
     channel = discord.utils.get(ctx.guild.voice_channels, name=channel_dest)
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     author = ctx.author
@@ -284,11 +288,13 @@ async def war(ctx):
 
 
 @bot.command(aliases=["s"])
-async def secret(ctx, member_to_move):
+async def secret(ctx, member_to_move=None):
     """
     !secret <membre> / !s <membre>
     Deplace un membre vers ton VC secret.
     """
+    if not member_to_move:
+        return await show_help(ctx, 'secret')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     secret_role = discord.utils.get(ctx.author.roles, id=SECRET_ROLE)
@@ -309,11 +315,13 @@ async def secret(ctx, member_to_move):
 
 
 @bot.command(aliases=["se"])
-async def sexit(ctx, member_to_move):
+async def sexit(ctx, member_to_move=None):
     """
     !sexit <membre> / !se <membre>
     Sors un membre de ton VC secret.
     """
+    if not member_to_move:
+        return await show_help(ctx, 'sexit')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     secret_role = discord.utils.get(ctx.author.roles, id=SECRET_ROLE)
@@ -334,11 +342,13 @@ async def sexit(ctx, member_to_move):
 
 
 @bot.command(aliases=["m"])
-async def mute(ctx, member_to_mute):
+async def mute(ctx, member_to_mute=None):
     """
     !mute <membre> / !m <membre>
     Mute un membre.
     """
+    if not member_to_mute:
+        return await show_help(ctx, 'mute')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_mute)
     if not member:
@@ -356,11 +366,13 @@ async def mute(ctx, member_to_mute):
 
 
 @bot.command(aliases=["u"])
-async def unmute(ctx, member_to_unmute):
+async def unmute(ctx, member_to_unmute=None):
     """
     !unmute <membre> / !u <membre>
     Un-mute un membre.
     """
+    if not member_to_unmute:
+        return await show_help(ctx, 'unmute')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_unmute)
     if not member:
@@ -387,7 +399,6 @@ async def deafen(ctx, member_to_deafen=None):
         return await show_help(ctx, 'deafen')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
-    print("", member)
     if not member:
         return await member_not_found_error(ctx, member_to_deafen)
     if member.voice:
@@ -403,11 +414,13 @@ async def deafen(ctx, member_to_deafen=None):
 
 
 @bot.command(aliases=["ud"])
-async def undeafen(ctx, member_to_undeafen):
+async def undeafen(ctx, member_to_undeafen=None):
     """
     !undeafen <membre> / !ud <membre>
     Un-deafen un membre.
     """
+    if not member_to_undeafen:
+        return await show_help(ctx, 'undeafen')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_undeafen)
     if not member:
@@ -488,11 +501,13 @@ async def reset(ctx):
 
 
 @bot.command(aliases=["t"])
-async def timeout(ctx, member_to_timeout, duration=0, *, unit=None):
+async def timeout(ctx, member_to_timeout=None, duration=0, *, unit=None):
     """
     !timeout <membre> <temps> <unite> / !t <membre> <temps> <unite>
     Timeout un membre pour un certain temps, en secondes ou minutes.
     """
+    if not member_to_timeout:
+        return await show_help(ctx, 'timeout')
     member = discord.utils.get(ctx.guild.members, name=member_to_timeout)
     if not member:
         return await member_not_found_error(ctx, member_to_timeout)
@@ -592,7 +607,6 @@ async def show_help(ctx, command):
 @bot.command(aliases=["commands", "h"])
 async def help(ctx, args=None):
     command_names_list = [x.name for x in bot.commands]
-    print("", command_names_list)
     if not args:
         h_embed.clear_fields()
         h_embed.set_author(name="=============   Commandes Disponibles   =============")
@@ -638,13 +652,15 @@ async def help(ctx, args=None):
         h_embed.add_field(name="`!timeout <membre> <temps> <unite>` / `!t <m> <t> <u>`", value="Timeout un membre "
                                                                                         "pour un certain temps",
                         inline=False)
+        return await ctx.send(embed=h_embed)
     elif args in command_names_list:
         h_embed.clear_fields()
         h_embed.add_field(name=args, value=bot.get_command(args).help)
+        return await ctx.send(embed=h_embed)
     else:
-        h_embed.clear_fields()
-        h_embed.add_field(name="Erreur", value="Cette commande n'existe pas")
-    await ctx.send(embed=h_embed)
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value="Cette commande n'existe pas")
+        return await ctx.send(embed=e_embed)
 
 
 # RUN
