@@ -152,13 +152,6 @@ async def on_member_join(member):
                                                   f"partie des vagabonds, rejoins la faction A, B ou C!")
 
 
-@bot.event
-async def on_member_remove(member):
-    """Bot farewells"""
-    await count_members(member)
-    await bot.get_channel(DEPART_CHAN).send(f"Ciao {member.name}!")
-
-
 async def count_members(member):
     """Count the members, without the bot"""
     guild_id = member.guild.id
@@ -166,6 +159,13 @@ async def count_members(member):
     member_count = guild.member_count - 1
     count_chan = bot.get_channel(COUNT_CHAN)
     await count_chan.edit(name="{0} {1}".format("Humans:", member_count))
+
+
+@bot.event
+async def on_member_remove(member):
+    """Bot farewells"""
+    await count_members(member)
+    await bot.get_channel(DEPART_CHAN).send(f"Ciao {member.name}!")
 
 
 # BOT COMMANDS
@@ -178,6 +178,17 @@ async def hello(ctx):
     Le bot te dit bonjour.
     """
     await ctx.send(f"Yeyow {ctx.author.mention}! Comment i' va?")
+
+
+@bot.command(aliases=["c"])
+async def coffee(ctx):
+    """
+    !coffee / !c
+    Le bot te fait un petit kawa.
+    """
+    o_embed.clear_fields()
+    o_embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
+    await ctx.send(f"{ctx.author.mention}", embed=o_embed)
 
 
 @bot.command(aliases=["j"])
@@ -512,17 +523,6 @@ async def refresh(ctx):
     await ctx.send(f"{ctx.author.mention}", embed=s_embed)
 
 
-@bot.command(aliases=["c"])
-async def coffee(ctx):
-    """
-    !coffee / !c
-    Le bot te fait un petit kawa.
-    """
-    o_embed.clear_fields()
-    o_embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
-    await ctx.send(f"{ctx.author.mention}", embed=o_embed)
-
-
 async def not_mover_error(ctx):
     e_embed.clear_fields()
     e_embed.add_field(name="Erreur", value="Tu n'es pas mover")
@@ -577,9 +577,11 @@ async def help(ctx, args=None):
         h_embed.add_field(name="------------------   ???   -------------------",
                           value="`!...`", inline=False)
         h_embed.add_field(name="`!hello`",
-                          value="Recois le bonjour du bot", inline=False)
+                          value="Coucou", inline=True)
         h_embed.add_field(name="`!coffee`",
-                          value="Petit cafe?", inline=False)
+                          value="Petit cafe?", inline=True)
+        h_embed.add_field(name="`!refresh`",
+                          value="Refresh le compteur d'humains", inline=True)
 
         h_embed.add_field(name="---------------------------------   Move   ---------------------------------",
                           value="`!...`", inline=False)
