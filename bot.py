@@ -55,6 +55,8 @@ SECRET_CHAN = 964279615541624932
 SECRET_ROLE = 964279750975696946
 ACCEUIL_SECRET_CHAN = 964996079726776400
 
+AUCOIN_CHAN = 964999100074455131
+
 LINKER_ROLE = 963870403628007475
 VAGABOND_ROLE = 963168526733021254
 A_ROLE = 963159344680149022
@@ -530,6 +532,60 @@ async def timeout(ctx, member_to_timeout=None, duration=0, *, unit=None):
     await ctx.send(f"{ctx.author.mention}", embed=s_embed)
 
 
+@bot.command(aliases=["ac"])
+async def aucoin(ctx, member_to_move=None):
+    """
+    !aucoin <membre>
+    Envoie un membre au coin, qu'il ferme un peu sa gueule.
+    """
+    if not member_to_move:
+        return await show_help(ctx, 'aucoin')
+    author = ctx.author
+    member = discord.utils.get(ctx.guild.members, name=member_to_move)
+    channel = bot.get_channel(AUCOIN_CHAN)
+    if not member:
+        return await member_not_found_error(ctx, member_to_move)
+    if member.voice:
+        if author.guild_permissions.move_members:
+            await member.move_to(channel)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
+            await ctx.send(f"{author.mention}", embed=s_embed)
+            s_embed.clear_fields()
+            s_embed.add_field(name="Au coin!", value="Tais toi un peu")
+            await member.send(embed=s_embed)
+        else:
+            await not_mover_error(ctx)
+    else:
+        await not_voice_connected_error(ctx, member_to_move)
+
+
+@bot.command(aliases=["cb"])
+async def cbon(ctx, member_to_move=None, channel_dest=None):
+    """
+    !cbon <membre>
+    C'est bon, l'autre con du coin peut revenir.
+    """
+    if not member_to_move:
+        return await show_help(ctx, 'aucoin')
+    author = ctx.author
+    member = discord.utils.get(ctx.guild.members, name=member_to_move)
+    channel = discord.utils.get(ctx.guild.voice_channels, name=channel_dest)
+    if not member:
+        return await member_not_found_error(ctx, member_to_move)
+    if not channel:
+        return await channel_not_found_error(ctx, channel_dest)
+    if member.voice:
+        if author.guild_permissions.move_members:
+            await member.move_to(channel)
+            s_embed.clear_fields()
+            s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
+            await ctx.send(f"{author.mention}", embed=s_embed)
+        else:
+            await not_mover_error(ctx)
+    else:
+        await not_voice_connected_error(ctx, member_to_move)
+
 @bot.command()
 async def refresh(ctx):
     """
@@ -629,6 +685,10 @@ async def help(ctx, args=None):
                         value="Deplace un membre vers ton VC secret", inline=False)
         h_embed.add_field(name="`!sexit` / `!se`",
                         value="Sors un membre de ton VC secret", inline=False)
+        h_embed.add_field(name="`!aucoin` <membre> / `!ac <membre>`",
+                        value="Envoie un membre au coin", inline=False)
+        h_embed.add_field(name="`!cbon` <membre> / `!cb <membre>`",
+                        value="L'autre con du coin peut revenir", inline=False)
 
         h_embed.add_field(name="------------------------------   Roles/Reset   ------------------------------",
                           value="`!...`", inline=False)
