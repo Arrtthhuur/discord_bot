@@ -79,7 +79,7 @@ e_embed = discord.Embed(color=discord.Color.red())  # Error
 s_embed = discord.Embed(color=discord.Color.green())  # Success
 h_embed = discord.Embed(color=discord.Color.blue())  # Help
 w_embed = discord.Embed(color=discord.Color.dark_red())  # War
-embed = discord.Embed(color=discord.Color.orange())  # misc
+o_embed = discord.Embed(color=discord.Color.orange())  # misc
 
 # Badwords
 badwords = ["fispute", 'tamere', 'sam', 'samuel']
@@ -194,15 +194,23 @@ async def join(ctx, faction):
     to_apply = discord.utils.find(lambda r: r.name == faction, ctx.guild.roles)
     vagabond = discord.utils.get(author.guild.roles, id=VAGABOND_ROLE)
     if not guild_roles:
-        await ctx.send("Cette faction n'existe pas")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value=f"{faction} n'existe pas")
+        await ctx.send(f"{author.mention}", embed=e_embed)
     elif auth_roles:
-        await ctx.send("T'es deja avec les frangins cong de tes mor")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value="Tu es deja dans cette faction")
+        await ctx.send(f"{author.mention}", embed=e_embed)
     elif not vaga_role:
-        await ctx.send("Bien essaye, reste chez toi p'tit gamin")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value="Tu ne peux pas rejoindre une faction adverse")
+        await ctx.send(f"{author.mention}", embed=e_embed)
     else:
         await author.add_roles(to_apply)
         await author.remove_roles(vagabond)
-        await ctx.send(f"Hola que tal {ctx.author.mention} bienvenue chez {to_apply.name}")
+        s_embed.clear_fields()
+        s_embed.set_author(name=f"Bienvenue chez {to_apply.name}")
+        await ctx.send(f"{author.mention}", embed=s_embed)
 
 
 @bot.command()
@@ -215,16 +223,24 @@ async def move(ctx, member_to_move, channel_dest):
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     author = ctx.author
     if channel is None and member is None:
-        await ctx.send(f"{author.mention} Ce channel et ce membre n'existent pas, bien vu l'artiste")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value=f"{member_to_move} et {channel_dest} n'existent pas")
+        await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif channel is None:
-        await ctx.send(f"{author.mention} Ce channel n'existe pas")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value=f"{channel_dest} n'existe pas")
+        await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif member is None:
-        await ctx.send(f"{author.mention} Ce membre n'existe pas")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value=f"{member_to_move} n'existe pas")
+        await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif not author.guild_permissions.move_members:
-        await ctx.send(f"{author.mention} Tu n'es pas demenageur")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value="Tu n'es pas demenageur")
+        await ctx.send(f"{author.mention}", embed=e_embed)
         return
     try:
         await member.move_to(channel)
@@ -379,7 +395,7 @@ async def unmute(ctx, member_to_unmute):
         if member.voice:
             if author.guild_permissions.mute_members:
                 await member.edit(mute=False)
-                e_embed.clear_fields()
+                s_embed.clear_fields()
                 s_embed.set_author(name=f"Un-muted {member.name}")
                 await ctx.send(f"{ctx.author.mention}", embed=s_embed)
             else:
@@ -413,7 +429,7 @@ async def deafen(ctx, member_to_deafen):
         if member.voice:
             if author.guild_permissions.deafen_members:
                 await member.edit(deafen=True)
-                e_embed.clear_fields()
+                s_embed.clear_fields()
                 s_embed.set_author(name=f"Deafen {member.name}")
                 await ctx.send(f"{ctx.author.mention}", embed=s_embed)
             else:
@@ -447,7 +463,7 @@ async def undeafen(ctx, member_to_undeafen):
         if member.voice:
             if author.guild_permissions.deafen_members:
                 await member.edit(deafen=False)
-                e_embed.clear_fields()
+                s_embed.clear_fields()
                 s_embed.set_author(name=f"Un-deafen {member.name}")
                 await ctx.send(f"{ctx.author.mention}", embed=s_embed)
             else:
@@ -506,6 +522,9 @@ async def reset(ctx):
     vagabond = discord.utils.get(user.guild.roles, id=VAGABOND_ROLE)
     if user.roles is None:
         print("Error - " + str(user) + " - no Roles")
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value="Tu n'as pas de roles")
+        await ctx.send(f"{user.mention}", embed=e_embed)
     else:
         for role in user.roles:
             try:
@@ -513,7 +532,9 @@ async def reset(ctx):
             except:
                 print("Error - " + str(user.name) + " - Can't delete @everyone")
         await user.add_roles(vagabond)
-        await ctx.send(f"{user.mention} te revoila {vagabond.name}")
+        s_embed.clear_fields()
+        s_embed.set_author(name="Te revoila Vagabond")
+        await ctx.send(f"{user.mention}", embed=s_embed)
 
 
 @bot.command(aliases=["t"])
@@ -522,7 +543,7 @@ async def timeout(ctx, member: discord.Member, duration=0, *, unit=None):
     !timeout <membre> <temps> <unite> / !t <membre> <temps> <unite>
     Timeout un membre pour un certain temps, en secondes ou minutes.
     """
-    e_embed.clear_fields()
+    s_embed.clear_fields()
     s_embed.set_author(name=f"Muted {member.name} pour {duration}{unit}")
     await ctx.send(f"{ctx.author.mention}", embed=s_embed)
     await member.edit(mute=True)
@@ -533,7 +554,7 @@ async def timeout(ctx, member: discord.Member, duration=0, *, unit=None):
         wait = 60 * duration
         await asyncio.sleep(wait)
     await member.edit(mute=False)
-    e_embed.clear_fields()
+    s_embed.clear_fields()
     s_embed.set_author(name=f"Un-muted {member.name}")
     await ctx.send(f"{ctx.author.mention}", embed=s_embed)
 
@@ -562,9 +583,9 @@ async def coffee(ctx):
     !coffee / !c
     Le bot te fait un petit kawa.
     """
-    embed.clear_fields()
-    embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
-    await ctx.send(f"{ctx.author.mention}", embed=embed)
+    o_embed.clear_fields()
+    o_embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
+    await ctx.send(f"{ctx.author.mention}", embed=o_embed)
 
 
 # HELP
