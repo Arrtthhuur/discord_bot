@@ -82,7 +82,7 @@ badwords = ["fispute", 'tamere', 'sam', 'samuel']
 # Bot ready status.
 @bot.event
 async def on_ready():
-    print("Ready")
+    print("Bot ready for action")
 
 
 @bot.event
@@ -186,7 +186,7 @@ async def join(ctx, faction):
     vagabond = discord.utils.get(author.guild.roles, id=VAGABOND_ROLE)
     if not guild_roles:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{faction} n'existe pas")
+        e_embed.add_field(name="Erreur", value=f"La faction <<  **{faction}**  >> n'existe pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
     elif auth_roles:
         e_embed.clear_fields()
@@ -215,7 +215,7 @@ async def move(ctx, member_to_move, channel_dest):
     author = ctx.author
     if channel is None and member is None:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"<<{member_to_move}>> et <<{channel_dest}>> n'existent pas")
+        e_embed.add_field(name="Erreur", value=f"<<  **{member_to_move}>> et <<{channel_dest}>> n'existent pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif channel is None:
@@ -225,13 +225,14 @@ async def move(ctx, member_to_move, channel_dest):
         return
     elif member is None:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_move}>> n'existe pas")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<**{member_to_move}>> n'existe pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif not author.guild_permissions.move_members:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value="Tu n'es pas demenageur")
-        await ctx.send(f"{author.mention}", embed=e_embed)
+        await show_mover_error(ctx, author)
+        # e_embed.clear_fields()
+        # e_embed.add_field(name="Erreur", value="Tu n'es pas demenageur")
+        # await ctx.send(f"{author.mention}", embed=e_embed)
         return
     try:
         await member.move_to(channel)
@@ -589,6 +590,17 @@ async def coffee(ctx):
     o_embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
     await ctx.send(f"{ctx.author.mention}", embed=o_embed)
 
+
+async def show_mover_error(ctx, author):
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value="Tu n'es pas demenageur")
+    await ctx.send(f"{author.mention}", embed=e_embed)
+
+
+async def show_member_not_found_error(ctx, author):
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value=f"Le membre <<**{member_to_move}>> n'existe pas")
+    await ctx.send(f"{author.mention}", embed=e_embed)
 
 # HELP
 # ==========================================================================================
