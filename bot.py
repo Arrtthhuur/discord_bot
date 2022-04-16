@@ -37,7 +37,7 @@ intents.members = True
 # .env
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-
+token = os.environ.get('HEROKU_TOKEN')
 
 # IDs
 SERVER_ID = 962702912117669958
@@ -630,4 +630,4 @@ async def help(ctx, args=None):
 
 # RUN
 # ==========================================================================================
-bot.run(HEROKU_TOKEN)
+bot.run(token)
