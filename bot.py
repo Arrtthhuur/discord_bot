@@ -378,7 +378,7 @@ async def unmute(ctx, member_to_unmute):
 
 
 @bot.command(aliases=["d"])
-async def deafen(ctx, member_to_deafen):
+async def deafen(ctx, member_to_deafen=None):
     """
     !deafen <membre> / !d <membre>
     Deafen un membre.
