@@ -100,7 +100,7 @@ async def on_message(message):
     Censures profanity.
     Only reacts to commands when entered in the bot channel.
     """
-    print("", message)
+    print("", message.content)
     await bot.process_commands(message)
     role = discord.utils.get(message.author.roles, id=LINKER_ROLE)
     for i in badwords:
