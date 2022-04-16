@@ -385,7 +385,7 @@ async def deafen(ctx, member_to_deafen=None):
     """
     if not member_to_deafen:
         h_embed.clear_fields()
-        h_embed.add_field(name="Erreur", value=help(ctx, deafen))
+        h_embed.add_field(name="Erreur", value=await help(ctx, deafen))
         await ctx.send(f"{ctx.author.mention}", embed=h_embed)
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
