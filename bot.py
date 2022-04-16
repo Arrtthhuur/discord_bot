@@ -383,6 +383,10 @@ async def deafen(ctx, member_to_deafen=None):
     !deafen <membre> / !d <membre>
     Deafen un membre.
     """
+    if not member_to_deafen:
+        h_embed.clear_fields()
+        h_embed.add_field(name="Erreur", value=bot.get_command(deafen).help)
+        await ctx.send(f"{ctx.author.mention}", embed=h_embed)
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
     print("", member)
