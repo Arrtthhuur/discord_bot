@@ -434,6 +434,10 @@ async def all(ctx):
                 if not member.bot and member != author:
                     await member.edit(mute=True)
                     await member.edit(deafen=True)
+        else:
+            await not_muter_error(ctx)
+    else:
+        await not_in_channel_error(ctx)
 
 
 
@@ -450,6 +454,10 @@ async def unall(ctx):
                 if not member.bot:
                     await member.edit(mute=False)
                     await member.edit(deafen=False)
+        else:
+            await not_muter_error(ctx)
+    else:
+        await not_in_channel_error(ctx)
 
 
 @bot.command(aliases=["r"])
@@ -562,6 +570,12 @@ async def not_voice_connected_error(ctx, member):
 async def already_in_channel_error(ctx, member, channel):
     e_embed.clear_fields()
     e_embed.add_field(name="Erreur", value=f"**{member}** est deja dans **{channel}**")
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+
+
+async def not_in_channel_error(ctx):
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value=f"Tu dois etre connecte a un channel")
     await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
 
