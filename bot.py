@@ -384,7 +384,7 @@ async def deafen(ctx, member_to_deafen=None):
     Deafen un membre.
     """
     if not member_to_deafen:
-        return await show_help(ctx, deafen)
+        return await help(ctx, 'deafen')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
     print("", member)
