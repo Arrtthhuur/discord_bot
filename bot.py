@@ -11,7 +11,6 @@
 # Imports
 import os
 import discord
-import logging
 import asyncio
 import datetime
 
@@ -19,14 +18,6 @@ import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
 from datetime import datetime
-
-
-# Logging
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
 
 
 # Intents enabling
@@ -37,7 +28,7 @@ intents.members = True
 # .env
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-token = os.environ.get('DISCORD_TOKEN')
+
 
 # IDs
 SERVER_ID = 962702912117669958
@@ -224,17 +215,17 @@ async def move(ctx, member_to_move, channel_dest):
     author = ctx.author
     if channel is None and member is None:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_move} et {channel_dest} n'existent pas")
+        e_embed.add_field(name="Erreur", value=f"<<{member_to_move}>> et <<{channel_dest}>> n'existent pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif channel is None:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{channel_dest} n'existe pas")
+        e_embed.add_field(name="Erreur", value=f"Le channel <<{channel_dest}>> n'existe pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif member is None:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_move} n'existe pas")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_move}>> n'existe pas")
         await ctx.send(f"{author.mention}", embed=e_embed)
         return
     elif not author.guild_permissions.move_members:
@@ -293,7 +284,7 @@ async def secret(ctx, member_to_move):
     channel = bot.get_channel(SECRET_CHAN)
     if not member:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_move} n'existe pas.")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_move}>> n'existe pas.")
         await ctx.send(f"{ctx.author.mention}", embed=e_embed)
         return
     if ctx.guild:
@@ -326,7 +317,7 @@ async def sexit(ctx, member_to_move):
     secret_role = discord.utils.get(ctx.author.roles, name="Agent Secret")
     if not member:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_move} n'existe pas.")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_move}>> n'existe pas.")
         await ctx.send(f"{ctx.author.mention}", embed=e_embed)
         return
     if ctx.guild:
@@ -354,7 +345,7 @@ async def mute(ctx, member_to_mute):
     member = discord.utils.get(ctx.guild.members, name=member_to_mute)
     if not member:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_mute} n'existe pas.")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_mute}>> n'existe pas.")
         await ctx.send(f"{ctx.author.mention}", embed=e_embed)
         return
     if ctx.guild:
@@ -388,7 +379,7 @@ async def unmute(ctx, member_to_unmute):
     member = discord.utils.get(ctx.guild.members, name=member_to_unmute)
     if not member:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_unmute} n'existe pas.")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_unmute}>> n'existe pas.")
         await ctx.send(f"{ctx.author.mention}", embed=e_embed)
         return
     if ctx.guild:
@@ -422,7 +413,7 @@ async def deafen(ctx, member_to_deafen):
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
     if not member:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_deafen} n'existe pas.")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_deafen}>> n'existe pas.")
         await ctx.send(f"{ctx.author.mention}", embed=e_embed)
         return
     if ctx.guild:
@@ -456,7 +447,7 @@ async def undeafen(ctx, member_to_undeafen):
     member = discord.utils.get(ctx.guild.members, name=member_to_undeafen)
     if not member:
         e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"{member_to_undeafen} n'existe pas.")
+        e_embed.add_field(name="Erreur", value=f"Le membre <<{member_to_undeafen}>> n'existe pas.")
         await ctx.send(f"{ctx.author.mention}", embed=e_embed)
         return
     if ctx.guild:
@@ -488,12 +479,14 @@ async def all(ctx):
     """
     author = ctx.author
     if ctx.guild:  # check if the msg was in a server's text channel
+        print("", ctx.guild)
         if author.voice:  # check if the user is in a voice channel
             if author.guild_permissions.deafen_members and author.guild_permissions.mute_members: # check if the user has deafen and mute members permission
                 for member in author.voice.channel.members:
                     if not member.bot and not author:
                         await member.edit(mute=True)
                         await member.edit(deafen=True)
+
 
 
 @bot.command(aliases=["ua"])
@@ -518,35 +511,42 @@ async def reset(ctx):
     !reset / !r
     Reset tes roles.
     """
-    user = ctx.author
+    author = ctx.author
     vagabond = discord.utils.get(user.guild.roles, id=VAGABOND_ROLE)
-    if user.roles is None:
+    if author.roles is None:
         print("Error - " + str(user) + " - no Roles")
         e_embed.clear_fields()
         e_embed.add_field(name="Erreur", value="Tu n'as pas de roles")
-        await ctx.send(f"{user.mention}", embed=e_embed)
+        await ctx.send(f"{author.mention}", embed=e_embed)
     else:
         for role in user.roles:
             try:
                 await user.remove_roles(role)
             except:
-                print("Error - " + str(user.name) + " - Can't delete @everyone")
-        await user.add_roles(vagabond)
+                print("Error - " + str(author.name) + " - Can't delete @everyone")
+        await author.add_roles(vagabond)
         s_embed.clear_fields()
         s_embed.set_author(name="Te revoila Vagabond")
-        await ctx.send(f"{user.mention}", embed=s_embed)
+        await ctx.send(f"{author.mention}", embed=s_embed)
 
 
 @bot.command(aliases=["t"])
-async def timeout(ctx, member: discord.Member, duration=0, *, unit=None):
+async def timeout(ctx, member_to_timeout, duration=0, *, unit=None):
     """
     !timeout <membre> <temps> <unite> / !t <membre> <temps> <unite>
     Timeout un membre pour un certain temps, en secondes ou minutes.
     """
+    member = discord.utils.get(ctx.guild.members, name=member_to_timeout)
+    if not member:
+        e_embed.clear_fields()
+        e_embed.add_field(name="Erreur", value="Tu n'as pas de roles")
+        await ctx.send(f"{author.mention}", embed=e_embed)
+        return
     s_embed.clear_fields()
-    s_embed.set_author(name=f"Muted {member.name} pour {duration}{unit}")
+    s_embed.set_author(name=f"Timeout {member.name} pour {duration}{unit}")
     await ctx.send(f"{ctx.author.mention}", embed=s_embed)
     await member.edit(mute=True)
+    await member.edit(deafen=True)
     if unit == "s":
         wait = 1 * duration
         await asyncio.sleep(wait)
@@ -554,8 +554,9 @@ async def timeout(ctx, member: discord.Member, duration=0, *, unit=None):
         wait = 60 * duration
         await asyncio.sleep(wait)
     await member.edit(mute=False)
+    await member.edit(deafen=False)
     s_embed.clear_fields()
-    s_embed.set_author(name=f"Un-muted {member.name}")
+    s_embed.set_author(name=f"Timeout de {member.name} fini")
     await ctx.send(f"{ctx.author.mention}", embed=s_embed)
 
 
@@ -646,7 +647,7 @@ async def help(ctx, args=None):
         h_embed.add_field(name=args, value=bot.get_command(args).help)
     else:
         h_embed.clear_fields()
-        h_embed.add_field(name="Erreur", value="Cette commande n'existe pas!")
+        h_embed.add_field(name="Erreur", value="Cette commande n'existe pas")
     await ctx.send(embed=h_embed)
 
 
