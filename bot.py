@@ -384,7 +384,7 @@ async def deafen(ctx, member_to_deafen=None):
     Deafen un membre.
     """
     if not member_to_deafen:
-        return await help(ctx, 'deafen')
+        return await show_help(ctx, 'deafen')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
     print("", member)
@@ -581,8 +581,9 @@ async def not_in_channel_error(ctx):
 
 
 async def show_help(ctx, command):
-    h_embed.clear_fields()
-    h_embed.add_field(name="Erreur", value=f"Cmd")
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value=f"Mauvais usage de la commande")
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
     await help(ctx, command)
 
 # HELP
