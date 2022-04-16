@@ -250,7 +250,7 @@ async def war(ctx):
     channel = bot.get_channel(WAR_CHAN)
     war_role = discord.utils.get(ctx.guild.roles, id=WAR_ROLE)
     author = ctx.author
-    if war_role not in author.roles:
+    if not author.guild_permissions.move_members():
         return await not_mover_error(ctx)
     for member in ctx.guild.members:
         if not member.bot:
