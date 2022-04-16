@@ -385,6 +385,7 @@ async def deafen(ctx, member_to_deafen):
     """
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_deafen)
+    print("", member)
     if not member:
         return await member_not_found_error(ctx, member_to_deafen)
     if member.voice:
