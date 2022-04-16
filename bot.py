@@ -37,7 +37,7 @@ intents.members = True
 # .env
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-token = os.environ.get('HEROKU_TOKEN')
+token = os.environ.get('DISCORD_TOKEN')
 
 # IDs
 SERVER_ID = 962702912117669958
