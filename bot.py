@@ -261,6 +261,7 @@ async def war(ctx):
             else:
                 try:
                     await member.move_to(channel)
+                    print("Moving - " + str(member))
                     w_embed.clear_fields()
                     w_embed.add_field(name="WAR", value=f"Gulyzm appelle a la guerre!")
                     await member.send(embed=w_embed)
