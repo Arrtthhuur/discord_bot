@@ -551,9 +551,9 @@ async def aucoin(ctx, member_to_move=None):
             s_embed.clear_fields()
             s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
             await ctx.send(f"{author.mention}", embed=s_embed)
-            s_embed.clear_fields()
-            s_embed.add_field(name="Au coin!", value="Tais toi un peu")
-            await member.send(embed=s_embed)
+            o_embed.clear_fields()
+            o_embed.add_field(name="Au coin!", value="Tais toi un peu")
+            await member.send(embed=o_embed)
         else:
             await not_mover_error(ctx)
     else:
@@ -567,7 +567,7 @@ async def cbon(ctx, member_to_move=None, channel_dest=None):
     C'est bon, l'autre con du coin peut revenir.
     """
     if not member_to_move:
-        return await show_help(ctx, 'aucoin')
+        return await show_help(ctx, 'cbon')
     author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     channel = discord.utils.get(ctx.guild.voice_channels, name=channel_dest)
@@ -585,6 +585,7 @@ async def cbon(ctx, member_to_move=None, channel_dest=None):
             await not_mover_error(ctx)
     else:
         await not_voice_connected_error(ctx, member_to_move)
+
 
 @bot.command()
 async def refresh(ctx):
