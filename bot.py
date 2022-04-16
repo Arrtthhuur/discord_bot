@@ -213,34 +213,46 @@ async def move(ctx, member_to_move, channel_dest):
     channel = discord.utils.get(ctx.guild.channels, name=channel_dest)
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     author = ctx.author
-    if channel is None and member is None:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"<<  **{member_to_move}>> et <<{channel_dest}>> n'existent pas")
-        await ctx.send(f"{author.mention}", embed=e_embed)
-        return
-    elif channel is None:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"Le channel <<{channel_dest}>> n'existe pas")
-        await ctx.send(f"{author.mention}", embed=e_embed)
-        return
-    elif member is None:
-        e_embed.clear_fields()
-        e_embed.add_field(name="Erreur", value=f"Le membre <<**{member_to_move}>> n'existe pas")
-        await ctx.send(f"{author.mention}", embed=e_embed)
-        return
-    elif not author.guild_permissions.move_members:
-        await show_mover_error(ctx, author)
-        # e_embed.clear_fields()
-        # e_embed.add_field(name="Erreur", value="Tu n'es pas demenageur")
-        # await ctx.send(f"{author.mention}", embed=e_embed)
-        return
-    try:
-        await member.move_to(channel)
-        s_embed.clear_fields()
-        s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
-        await ctx.send(f"{author.mention}", embed=s_embed)
-    except:
-        print("Error - Move")
+    if member:
+        if channel:
+            if member.voice:
+                if author.guild_permissions.move_members:
+                    await member.move_to(channel)
+                    s_embed.clear_fields()
+                    s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
+                    await ctx.send(f"{author.mention}", embed=s_embed)
+                else:
+                    await show_mover_error(ctx)
+            else:
+                await show_not_voice_connected_error(ctx, member)
+        else:
+            await show_channel_not_found_error(ctx, channel)
+    elif not channel and not member:
+        await show_cm_not_found_error(ctx, channel, member)
+    else:
+        await show_member_not_found_error(ctx, member)
+    #
+    #
+    #
+    # if channel is None and member is None:
+    #     await show_cm_not_found_error(ctx, channel_dest, member_to_move)
+    #     return
+    # elif channel is None:
+    #     await show_channel_not_found_error(ctx, channel_dest)
+    #     return
+    # elif member is None:
+    #     await show_member_not_found_error(ctx, member_to_move)
+    #     return
+    # elif not author.guild_permissions.move_members:
+    #     await show_mover_error(ctx)
+    #     return
+    # try:
+    #     await member.move_to(channel)
+    #     s_embed.clear_fields()
+    #     s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
+    #     await ctx.send(f"{author.mention}", embed=s_embed)
+    # except:
+    #     print("Error - Move")
 
 
 @bot.command(aliases=["w"])
@@ -591,16 +603,35 @@ async def coffee(ctx):
     await ctx.send(f"{ctx.author.mention}", embed=o_embed)
 
 
-async def show_mover_error(ctx, author):
+async def show_mover_error(ctx):
     e_embed.clear_fields()
     e_embed.add_field(name="Erreur", value="Tu n'es pas demenageur")
-    await ctx.send(f"{author.mention}", embed=e_embed)
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
 
 
-async def show_member_not_found_error(ctx, author):
+async def show_member_not_found_error(ctx, member):
     e_embed.clear_fields()
-    e_embed.add_field(name="Erreur", value=f"Le membre <<**{member_to_move}>> n'existe pas")
-    await ctx.send(f"{author.mention}", embed=e_embed)
+    e_embed.add_field(name="Erreur", value=f"Le membre <<  **{member}**  >> n'existe pas")
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+
+
+async def show_channel_not_found_error(ctx, channel):
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value=f"Le channel <<  **{channel}**  >> n'existe pas")
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+
+
+async def show_cm_not_found_error(ctx, channel, member):
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value=f"<<  **{member}>> et <<  **{channel}**  >> n'existent pas")
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+
+
+async def show_not_voice_connected_error(ctx, member):
+    e_embed.clear_fields()
+    e_embed.add_field(name="Erreur", value=f"**{member}** n'est pas connecte a un VC.")
+    await ctx.send(f"{ctx.author.mention}", embed=e_embed)
+
 
 # HELP
 # ==========================================================================================
