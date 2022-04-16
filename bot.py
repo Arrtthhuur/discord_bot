@@ -536,6 +536,7 @@ async def timeout(ctx, member_to_timeout, duration=0, *, unit=None):
     !timeout <membre> <temps> <unite> / !t <membre> <temps> <unite>
     Timeout un membre pour un certain temps, en secondes ou minutes.
     """
+    author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_timeout)
     if not member:
         e_embed.clear_fields()
