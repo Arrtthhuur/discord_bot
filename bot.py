@@ -562,9 +562,9 @@ async def coffee(ctx):
     !coffee \\ !c
     Le bot te fait un petit kawa.
     """
-    s_embed.clear_fields()
-    s_embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
-    await ctx.send(f"{ctx.author.mention}", embed=s_embed)
+    embed.clear_fields()
+    embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
+    await ctx.send(f"{ctx.author.mention}", embed=embed)
 
 
 # HELP
