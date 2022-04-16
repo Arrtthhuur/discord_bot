@@ -93,21 +93,20 @@ async def on_message(message):
     Censures profanity.
     Only reacts to commands when entered in the bot channel.
     """
-    role = discord.utils.get(message.author.roles, id=LINKER_ROLE)
-    author = message.author
-    role = discord.utils.get(message.guild.roles, id=LINKER_ROLE)
     if message.author.id == BOT_ID:
         return
     for i in badwords:
         if i in message.content:
             await message.delete()
             e_embed.clear_fields()
-            e_embed.add_field(name="Erreur", value=f"Entre les commandes dans le channel bot.")
-            await message.channel.send(f"{message.author.mention} Tsss, ta mere serait fiere de toi...", embed=e_embed)
+            e_embed.add_field(name="Erreur", value=f"Tsss, ta mere serait fiere de toi...")
+            await message.channel.send(f"{message.author.mention}", embed=e_embed)
             bot.dispatch('profanity', message, i)
             break
     if 'https://' in message.content or 'http://' in message.content:
-        if role not in author.roles:
+        # role = discord.utils.get(message.author.roles, id=LINKER_ROLE)
+        role = discord.utils.get(message.guild.roles, id=LINKER_ROLE)
+        if role not in message.author.roles:
             await message.delete()
             e_embed.clear_fields()
             e_embed.add_field(name="Erreur", value=f"Tiens, ton lien du Q.")
