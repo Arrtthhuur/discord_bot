@@ -128,7 +128,7 @@ async def log(message):
     m_hour = message.created_at.strftime('%H:%M')
     m_date = message.created_at.strftime('%d/%m/%Y')
     if message.author.id != BOT_ID:
-        await channel.send(f"\" ***{message.content}*** \" envoye par **{message.author}**, sur le channel "
+        await channel.send(f"\" ***{message.content}*** \" envoye par **{message.author.name}**, sur le channel "
                            f"***{message.channel.name}***, a {m_hour} le {m_date}")
 
 
@@ -165,7 +165,7 @@ async def count_members(member):
 async def on_member_remove(member):
     """Bot farewells"""
     await count_members(member)
-    await bot.get_channel(DEPART_CHAN).send(f"Ciao {member.name}!")
+    await bot.get_channel(DEPART_CHAN).send(f"Ciao {member}!")
 
 
 # BOT COMMANDS
@@ -229,7 +229,7 @@ async def move(ctx, member_to_move, channel_dest):
     !move <membre> <channel>
     Deplace un membre vers un channel.
     """
-    channel = discord.utils.get(ctx.guild.channels, name=channel_dest)
+    channel = discord.utils.get(ctx.guild.voice_channels, name=channel_dest)
     member = discord.utils.get(ctx.guild.members, name=member_to_move)
     author = ctx.author
     if member:
@@ -466,23 +466,22 @@ async def reset(ctx):
     !reset / !r
     Reset tes roles.
     """
-    author = ctx.author
     vagabond = discord.utils.get(user.guild.roles, id=VAGABOND_ROLE)
-    if author.roles is None:
+    if ctx.author.roles is None:
         print("Error - " + str(user) + " - no Roles")
         e_embed.clear_fields()
         e_embed.add_field(name="Erreur", value="Tu n'as pas de roles")
-        await ctx.send(f"{author.mention}", embed=e_embed)
+        await ctx.send(f"{ctx.author.mention}", embed=e_embed)
     else:
-        for role in user.roles:
+        for role in ctx.author.roles:
             try:
-                await user.remove_roles(role)
+                await ctx.author.remove_roles(role)
             except:
-                print("Error - " + str(author.name) + " - Can't delete @everyone")
+                print("Error - " + str(ctx.author.name) + " - Can't delete @everyone")
         await author.add_roles(vagabond)
         s_embed.clear_fields()
         s_embed.set_author(name="Te revoila Vagabond")
-        await ctx.send(f"{author.mention}", embed=s_embed)
+        await ctx.send(f"{ctx.author.mention}", embed=s_embed)
 
 
 @bot.command(aliases=["t"])
@@ -491,7 +490,6 @@ async def timeout(ctx, member_to_timeout, duration=0, *, unit=None):
     !timeout <membre> <temps> <unite> / !t <membre> <temps> <unite>
     Timeout un membre pour un certain temps, en secondes ou minutes.
     """
-    author = ctx.author
     member = discord.utils.get(ctx.guild.members, name=member_to_timeout)
     if not member:
         return await member_not_found_error(ctx, member_to_timeout)
@@ -590,7 +588,7 @@ async def help(ctx, args=None):
         h_embed.set_author(name="=============   Commandes Disponibles   =============")
         h_embed.add_field(name="---------------------------------   Misc   ---------------------------------",
                           value="`!...`", inline=False)
-        h_embed.add_field(name="`!help <commande> / !h <commande>`", value="Plus d'info sur une commande", inline=False)
+        h_embed.add_field(name="`!help <commande>`", value="Plus d'info sur une commande", inline=False)
         h_embed.add_field(name="`!hello`", value="Couscous", inline=True)
         h_embed.add_field(name="`!coffee`", value="Petit cafe?", inline=True)
         h_embed.add_field(name="`!refresh`", value="Refresh le compteur d'humains", inline=False)
