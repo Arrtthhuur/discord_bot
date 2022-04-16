@@ -576,7 +576,7 @@ async def help(ctx, args=None):
         h_embed.set_author(name="=============   Commandes Disponibles   =============")
         h_embed.add_field(name="---------------------------------   Misc   ---------------------------------",
                           value="`!...`", inline=False)
-        h_embed.add_field(name="`!help <commande>`", value="Help", inline=True)
+        h_embed.add_field(name="`!help <commande> / !h <commande>`", value="Plus d'info sur une commande", inline=True)
         h_embed.add_field(name="`!hello`", value="Couscous", inline=True)
         h_embed.add_field(name="`!coffee`", value="Petit cafe?", inline=True)
         h_embed.add_field(name="`!refresh`", value="Refresh le compteur d'humains", inline=False)
