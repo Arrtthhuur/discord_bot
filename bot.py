@@ -17,7 +17,7 @@ import datetime
 
 
 from discord.ext import commands
-# from dotenv import load_dotenv  # only for local testing
+from dotenv import load_dotenv
 from datetime import datetime
 
 
@@ -35,8 +35,8 @@ intents.members = True
 
 
 # .env
-# load_dotenv()
-# TOKEN = os.getenv('DISCORD_TOKEN')
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 
 # IDs
@@ -630,4 +630,4 @@ async def help(ctx, args=None):
 
 # RUN
 # ==========================================================================================
-bot.run(DISCORD_TOKEN)
+bot.run(TOKEN)
