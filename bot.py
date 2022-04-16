@@ -548,6 +548,7 @@ async def aucoin(ctx, member_to_move=None):
     if member.voice:
         if author.guild_permissions.move_members:
             await member.move_to(channel)
+            await member.edit(deafen=True)
             s_embed.clear_fields()
             s_embed.set_author(name=f"Moved {member.name} to {channel.name}")
             await ctx.send(f"{author.mention}", embed=s_embed)
