@@ -94,6 +94,8 @@ async def on_message(message):
     Only reacts to commands when entered in the bot channel.
     """
     role = discord.utils.get(message.author.roles, id=LINKER_ROLE)
+    member = discord.utils.get(message.author)
+    role = discord.utils.get(member.roles, id=LINKER_ROLE)
     for i in badwords:
         if i in message.content:
             await message.delete()
