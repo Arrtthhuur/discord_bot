@@ -14,31 +14,28 @@ class Misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(description="Le bot te dit bonjour.")
     async def hello(self, ctx):
         """
-        !hello
-        Le bot te dit bonjour.
+        `!hello`
         """
         await ctx.send(f"Yeyow {ctx.author.mention}! Comment i' va?")
 
 
-    @commands.command(aliases=["c"])
+    @commands.command(aliases=["c"], description="Le bot te fait un petit kawa.")
     async def coffee(self, ctx):
         """
-        !coffee / !c
-        Le bot te fait un petit kawa.
+        `!coffee` / `!c`
         """
         o_embed.clear_fields()
         o_embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
         await ctx.send(f"{ctx.author.mention}", embed=o_embed)
 
 
-    @commands.command()
+    @commands.command(description="Refresh le compteur d'humains.")
     async def refresh(self, ctx):
         """
-        !refresh
-        Refresh le compteur d'humains.
+        `!refresh`
         """
         print("refresh")
         s_embed.clear_fields()
