@@ -14,7 +14,7 @@ class Misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(description="Le bot te dit bonjour.")
+    @commands.command(description="Greetings from the bot")
     async def hello(self, ctx):
         """
         !hello
@@ -22,7 +22,7 @@ class Misc(commands.Cog):
         await ctx.send(f"Yeyow {ctx.author.mention}! Comment i' va?")
 
 
-    @commands.command(aliases=["c"], description="Le bot te fait un petit kawa.")
+    @commands.command(aliases=["c"], description="Mmmh, hot coffee")
     async def coffee(self, ctx):
         """
         !coffee // !c
@@ -32,7 +32,7 @@ class Misc(commands.Cog):
         await ctx.send(f"{ctx.author.mention}", embed=o_embed)
 
 
-    @commands.command(description="Refresh le compteur d'humains.")
+    @commands.command(description="Refresh the human counter")
     async def refresh(self, ctx):
         """
         !refresh

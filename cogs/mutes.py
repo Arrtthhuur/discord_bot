@@ -2,24 +2,27 @@
 
 import discord
 import asyncio
+import os
 
 from discord.ext import commands
 from utils.errors import *
+from dotenv import load_dotenv
+
+load_dotenv()
+AUCOIN_CHAN = os.getenv('AUCOIN_CHAN')
 
 s_embed = discord.Embed(color=discord.Color.green())  # Success
 w_embed = discord.Embed(color=discord.Color.dark_red())  # War
-
-AUCOIN_CHAN = 964999100074455131
 
 
 class Mutes(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=["m"], description="Mute un membre.")
+    @commands.command(aliases=["m"], description="Mute a member")
     async def mute(self, ctx, member_to_mute=None):
         """
-        !mute <membre> || !m <membre>
+        !mute <member> || !m <m>
         """
         if not member_to_mute:
             return await show_help(ctx)
@@ -39,10 +42,10 @@ class Mutes(commands.Cog):
             await not_voice_connected_error(ctx, member_to_mute)
 
 
-    @commands.command(aliases=["u"], description="Un-mute un membre.")
+    @commands.command(aliases=["u"], description="Un-mute a member")
     async def unmute(self, ctx, member_to_unmute=None):
         """
-        !unmute <membre> || !u <membre>
+        !unmute <member> || !u <m>
         """
         if not member_to_unmute:
             return await show_help(ctx)
@@ -62,10 +65,10 @@ class Mutes(commands.Cog):
             await not_voice_connected_error(ctx, member_to_unmute)
 
 
-    @commands.command(aliases=["d"], description="Deafen un membre.")
+    @commands.command(aliases=["d"], description="Deafen a member")
     async def deafen(self, ctx, member_to_deafen=None):
         """
-        !deafen <membre> || !d <membre>
+        !deafen <member> || !d <m>
         """
         if not member_to_deafen:
             return await show_help(ctx)
@@ -85,10 +88,10 @@ class Mutes(commands.Cog):
             await not_voice_connected_error(ctx, member_to_deafen)
 
 
-    @commands.command(aliases=["ud"], description="Un-deafen un membre.")
+    @commands.command(aliases=["ud"], description="Un-deafen a member")
     async def undeafen(self, ctx, member_to_undeafen=None):
         """
-        !undeafen <membre> || !ud <membre>
+        !undeafen <member> || !ud <m>
         """
         if not member_to_undeafen:
             return await show_help(ctx)
@@ -108,7 +111,7 @@ class Mutes(commands.Cog):
             await not_voice_connected_error(ctx, member_to_undeafen)
 
 
-    @commands.command(aliases=["a"], description="Mute et deafen tous les membres de ton VC actuel.")
+    @commands.command(aliases=["a"], description="Mute et deafen all members of your voice channel")
     async def all(self, ctx):
         """
         !all || !a
@@ -129,7 +132,7 @@ class Mutes(commands.Cog):
             await not_in_channel_error(ctx)
 
 
-    @commands.command(aliases=["ua"], description="Un-mute et un-deafen tous les membres de ton VC actuel.")
+    @commands.command(aliases=["ua"], description="Un-mute et un-deafen all members of your voice channel")
     async def unall(self, ctx):
         """
         !unall || !ua
@@ -150,10 +153,10 @@ class Mutes(commands.Cog):
             await not_in_channel_error(ctx)
 
 
-    @commands.command(aliases=["t"], description="Timeout un membre pour un certain temps, en sec ou min.")
+    @commands.command(aliases=["t"], description="Timeout a member for a given time, in sec or min")
     async def timeout(self, ctx, member_to_timeout=None, duration=0, *, unit=None):
         """
-        !timeout <membre> <temps> <unite> || !t <m> <t> <u>
+        !timeout <member> <time> <unit> || !t <m> <t> <u>
         """
         if not member_to_timeout:
             return await show_help(ctx)
@@ -184,10 +187,10 @@ class Mutes(commands.Cog):
             await not_voice_connected_error(ctx, member_to_timeout)
 
 
-    @commands.command(aliases=["ac"], description="Envoie un membre au coin, qu'il ferme un peu sa gueule.")
+    @commands.command(aliases=["ac"], description="Shush and send a member to a silent channel")
     async def aucoin(self, ctx, member_to_move=None):
         """
-        !aucoin <membre> || !ac <membre>
+        !aucoin <member> || !ac <m>
         """
         if not member_to_move:
             return await show_help(ctx)
@@ -212,10 +215,10 @@ class Mutes(commands.Cog):
             await not_voice_connected_error(ctx, member_to_move)
 
 
-    @commands.command(aliases=["cb"], description="C'est bon, l'autre con du coin peut revenir.")
+    @commands.command(aliases=["cb"], description="The timeout member can come back")
     async def cbon(self, ctx, member_to_move=None, channel_dest=None):
         """
-        !cbon <membre> <channel_dest> || !cb <membre> <channel_dest>
+        !cbon <member> <channel_dest> || !cb <m> <c>
         """
         if not member_to_move:
             return await show_help(ctx)

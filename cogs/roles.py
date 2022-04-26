@@ -1,17 +1,20 @@
 # roles.py
 
 import discord
+import os
 
 from discord.ext import commands
 from utils.errors import *
+from dotenv import load_dotenv
+
+load_dotenv()
+VAGABOND_ROLE = os.getenv('VAGABOND_ROLE')
+A_ROLE = os.getenv('A_ROLE')
+B_ROLE = os.getenv('B_ROLE')
+C_ROLE = os.getenv('C_ROLE')
 
 e_embed = discord.Embed(color=discord.Color.red())  # Error
 s_embed = discord.Embed(color=discord.Color.green())  # Success
-
-VAGABOND_ROLE = 963168526733021254
-A_ROLE = 963159344680149022
-B_ROLE = 963159369728557096
-C_ROLE = 964943407824896030
 
 
 class Roles(commands.Cog):
@@ -19,7 +22,7 @@ class Roles(commands.Cog):
         self.bot = bot
 
 
-    @commands.command(aliases=["j"], description="Rejoins une faction.")
+    @commands.command(aliases=["j"], description="Join a faction")
     async def join(self, ctx, faction=None):
         """
         !join <faction> || !j <faction>
@@ -52,7 +55,7 @@ class Roles(commands.Cog):
             await ctx.send(f"{author.mention}", embed=s_embed)
 
 
-    @commands.command(aliases=["r"], description="Reset tes roles.")
+    @commands.command(aliases=["r"], description="Reset your roles")
     async def reset(self, ctx):
         """
         !reset || !r

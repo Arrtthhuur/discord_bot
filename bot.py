@@ -54,60 +54,8 @@ async def load_extensions():
             await bot.load_extension(f"cogs.{filename[:-3]}")
 
 
-# @bot.command(aliases=["commands", "h"], description="Affiche les commandes.")
-# async def help(ctx, args=None):
-#     """
-#     !help / !h // !help <commande>
-#     """
-#     command_names_list = [x.name for x in bot.commands]
-#     cogs_names_list = [x for x in bot.cogs]
-#     if not args:
-#         h_embed.clear_fields()
-#         h_embed.set_author(name="Commandes Disponibles")
-#         misc_cog = bot.get_cog('Misc')
-#         misc_cmds = misc_cog.get_commands()
-#         h_embed.add_field(name=f"{misc_cog.qualified_name}", value="-----", inline=True)
-#         for cmd in misc_cmds:
-#             h_embed.add_field(name=f"`{cmd.help}`", value=f"{cmd.description}", inline=False)
-#         mute_cog = bot.get_cog('Mutes')
-#         mute_cmds = mute_cog.get_commands()
-#         h_embed.add_field(name=f"{mute_cog.qualified_name}", value="----", inline=False)
-#         for cmd in mute_cmds:
-#             h_embed.add_field(name=f"`{cmd.help}`", value=f"{cmd.description}", inline=False)
-#         move_cog = bot.get_cog('Moves')
-#         move_cmds = move_cog.get_commands()
-#         h_embed.add_field(name=f"{move_cog.qualified_name}", value="----", inline=False)
-#         for cmd in move_cmds:
-#             h_embed.add_field(name=f"{cmd.help}", value=f"{cmd.description}", inline=False)
-#         roles_cog = bot.get_cog('Roles')
-#         roles_cmds = roles_cog.get_commands()
-#         h_embed.add_field(name=f"{roles_cog.qualified_name}", value="----", inline=False)
-#         for cmd in roles_cmds:
-#             h_embed.add_field(name=f"`{cmd.help}`", value=f"{cmd.description}", inline=False)
-#         return await ctx.send(embed=h_embed)
-#     elif args in cogs_names_list:
-#         cog = bot.get_cog(args)
-#         h_embed.clear_fields()
-#         h_embed.set_author(name=f"{cog.qualified_name}")
-#         cmds = cog.get_commands()
-#         for cmd in cmds:
-#             h_embed.add_field(name=f"`{cmd.help}`", value=f"{cmd.description}", inline=False)
-#         return await ctx.send(embed=h_embed)
-#     elif args in command_names_list:
-#         h_embed.clear_fields()
-#         h_embed.add_field(name=args, value=bot.get_command(args).help)
-#         return await ctx.send(embed=h_embed)
-#     else:
-#         e_embed.clear_fields()
-#         e_embed.add_field(name="Erreur", value="Cette commande n'existe pas")
-#         return await ctx.send(embed=e_embed)
-
-
 # RUN
 # ==========================================================================================
-# bot.run(TOKEN)
-
-
 async def main():
     """
     Main function.

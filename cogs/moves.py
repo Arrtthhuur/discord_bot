@@ -1,18 +1,21 @@
 # move.py
 
 import discord
+import os
 
 from discord.ext import commands
 from utils.errors import *
+from dotenv import load_dotenv
+
+load_dotenv()
+WAR_CHAN = os.getenv('WAR_CHAN')
+WAR_ROLE = os.getenv('WAR_ROLE')
+SECRET_CHAN = os.getenv('SECRET_CHAN')
+SECRET_ROLE = os.getenv('SECRET_ROLE')
+ACCUEIL_SECRET_CHAN = os.getenv('ACCUEIL_SECRET_CHAN')
 
 s_embed = discord.Embed(color=discord.Color.green())  # Success
 w_embed = discord.Embed(color=discord.Color.dark_red())  # War
-
-WAR_CHAN = 963881045722292224
-WAR_ROLE = 963881736016658463
-SECRET_CHAN = 964279615541624932
-SECRET_ROLE = 964279750975696946
-ACCUEIL_SECRET_CHAN = 964996079726776400
 
 
 class Moves(commands.Cog):
@@ -20,10 +23,10 @@ class Moves(commands.Cog):
         self.bot = bot
 
 
-    @commands.command(description="Deplace un membre vers un channel vocal.")
+    @commands.command(description="Move a member to a vocal channel")
     async def move(self, ctx, member_to_move=None, channel_dest=None):
         """
-        !move <membre> <channel>
+        !move <member> <channel>
         """
         if not member_to_move or not channel_dest:
             return await show_help(ctx)
@@ -53,7 +56,7 @@ class Moves(commands.Cog):
             await member_not_found_error(ctx, member_to_move)
 
 
-    @commands.command(aliases=["w"], description="Deplace tous les membres War dans le channel War.")
+    @commands.command(aliases=["w"], description="Move all War members to the War voice channel")
     async def war(self, ctx):
         """
         !war || !w
@@ -80,10 +83,10 @@ class Moves(commands.Cog):
                         print("Error - bigmove")
 
 
-    @commands.command(aliases=["s"], description="Deplace un membre vers ton VC secret.")
+    @commands.command(aliases=["s"], description="Move a member to your secret channel")
     async def secret(self, ctx, member_to_move=None):
         """
-        !secret <membre> || !s <membre>
+        !secret <member> || !s <m>
         """
         if not member_to_move:
             return await show_help(ctx)
@@ -107,10 +110,10 @@ class Moves(commands.Cog):
             await not_voice_connected_error(ctx, member_to_move)
 
 
-    @commands.command(aliases=["se"], description="Sors un membre de ton VC secret.")
+    @commands.command(aliases=["se"], description="Move a member out of your secret channel")
     async def sexit(self, ctx, member_to_move=None):
         """
-        !sexit <membre> || !se <membre>
+        !sexit <member> || !se <m>
         """
         if not member_to_move:
             return await show_help(ctx)

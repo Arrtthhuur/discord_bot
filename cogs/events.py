@@ -46,7 +46,9 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        """Bot farewells"""
+        """
+        Bot farewells
+        """
         print("member remove")
         await self.bot.get_channel(DEPART_CHAN).send(f"Ciao {member}!")
         await count_members(member)
