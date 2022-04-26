@@ -29,7 +29,7 @@ e_embed = discord.Embed(color=discord.Color.red())  # Error
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents, case_insensitive=True, help_command=None)
 # bot = commands.Bot(command_prefix="!", intents=intents, case_insensitive=True)
-# bot.remove_command("help")
+bot.remove_command("help")
 
 
 # Code
@@ -102,24 +102,6 @@ async def load_extensions():
 #         e_embed.add_field(name="Erreur", value="Cette commande n'existe pas")
 #         return await ctx.send(embed=e_embed)
 
-
-# @commands.command()
-# def help(self, ctx: Context):
-#     embed = Embed()
-#
-#     embed.title = f"Admin commands of  {self.qualified_name}"
-#     for command in self.get_commands():
-#         name = command.name
-#         description = command.description
-#         passes_check = True
-#         for check in command.checks:
-#             if not check(ctx.author):
-#                 passes_check = False
-#                 break
-#         if passes_check:
-#             embed.add_field(name=name, value=description, inline=False)
-#
-#     await ctx.send(embed=embed)
 
 # RUN
 # ==========================================================================================

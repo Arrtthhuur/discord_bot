@@ -19,7 +19,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["m"], description="Mute un membre.")
     async def mute(self, ctx, member_to_mute=None):
         """
-        `!mute <membre>` / `!m <membre>`
+        !mute <membre> || !m <membre>
         """
         if not member_to_mute:
             return await show_help(ctx)
@@ -42,7 +42,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["u"], description="Un-mute un membre.")
     async def unmute(self, ctx, member_to_unmute=None):
         """
-        `!unmute <membre>` / `!u <membre>`
+        !unmute <membre> || !u <membre>
         """
         if not member_to_unmute:
             return await show_help(ctx)
@@ -65,7 +65,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["d"], description="Deafen un membre.")
     async def deafen(self, ctx, member_to_deafen=None):
         """
-        `!deafen <membre>` / `!d <membre>`
+        !deafen <membre> || !d <membre>
         """
         if not member_to_deafen:
             return await show_help(ctx)
@@ -88,7 +88,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["ud"], description="Un-deafen un membre.")
     async def undeafen(self, ctx, member_to_undeafen=None):
         """
-        `!undeafen <membre>` / `!ud <membre>`
+        !undeafen <membre> || !ud <membre>
         """
         if not member_to_undeafen:
             return await show_help(ctx)
@@ -111,7 +111,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["a"], description="Mute et deafen tous les membres de ton VC actuel.")
     async def all(self, ctx):
         """
-        `!all` / `!a`
+        !all || !a
         """
         author = ctx.author
         if author.voice:  # check if the user is in a voice channel
@@ -132,7 +132,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["ua"], description="Un-mute et un-deafen tous les membres de ton VC actuel.")
     async def unall(self, ctx):
         """
-        `!unall` / `!ua`
+        !unall || !ua
         """
         author = ctx.author
         if author.voice:
@@ -150,10 +150,10 @@ class Mutes(commands.Cog):
             await not_in_channel_error(ctx)
 
 
-    @commands.command(aliases=["t"], description="Timeout un membre pour un certain temps, en secondes ou minutes.")
+    @commands.command(aliases=["t"], description="Timeout un membre pour un certain temps, en sec ou min.")
     async def timeout(self, ctx, member_to_timeout=None, duration=0, *, unit=None):
         """
-        `!timeout <membre> <temps> <unite>` / `!t <membre> <temps> <unite>`
+        !timeout <membre> <temps> <unite> || !t <m> <t> <u>
         """
         if not member_to_timeout:
             return await show_help(ctx)
@@ -187,7 +187,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["ac"], description="Envoie un membre au coin, qu'il ferme un peu sa gueule.")
     async def aucoin(self, ctx, member_to_move=None):
         """
-        `!aucoin <membre>`
+        !aucoin <membre> || !ac <membre>
         """
         if not member_to_move:
             return await show_help(ctx)
@@ -215,7 +215,7 @@ class Mutes(commands.Cog):
     @commands.command(aliases=["cb"], description="C'est bon, l'autre con du coin peut revenir.")
     async def cbon(self, ctx, member_to_move=None, channel_dest=None):
         """
-        `!cbon <membre> <channel_dest>`
+        !cbon <membre> <channel_dest> || !cb <membre> <channel_dest>
         """
         if not member_to_move:
             return await show_help(ctx)
