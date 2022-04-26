@@ -17,7 +17,7 @@ class Misc(commands.Cog):
     @commands.command(description="Le bot te dit bonjour.")
     async def hello(self, ctx):
         """
-        `!hello`
+        !hello
         """
         await ctx.send(f"Yeyow {ctx.author.mention}! Comment i' va?")
 
@@ -25,7 +25,7 @@ class Misc(commands.Cog):
     @commands.command(aliases=["c"], description="Le bot te fait un petit kawa.")
     async def coffee(self, ctx):
         """
-        `!coffee` / `!c`
+        !coffee // !c
         """
         o_embed.clear_fields()
         o_embed.set_image(url="https://c.tenor.com/QrDVGQ9cnsMAAAAC/coffee-creamer.gif")
@@ -35,7 +35,7 @@ class Misc(commands.Cog):
     @commands.command(description="Refresh le compteur d'humains.")
     async def refresh(self, ctx):
         """
-        `!refresh`
+        !refresh
         """
         print("refresh")
         s_embed.clear_fields()

@@ -22,7 +22,7 @@ class Roles(commands.Cog):
     @commands.command(aliases=["j"], description="Rejoins une faction.")
     async def join(self, ctx, faction=None):
         """
-        `!join <faction>` / `!j <faction>`
+        !join <faction> || !j <faction>
         """
         if not faction:
             return await show_help(ctx)
@@ -55,7 +55,7 @@ class Roles(commands.Cog):
     @commands.command(aliases=["r"], description="Reset tes roles.")
     async def reset(self, ctx):
         """
-        `!reset` / `!r`
+        !reset || !r
         """
         vagabond = discord.utils.get(ctx.guild.roles, id=VAGABOND_ROLE)
         if ctx.author.roles is None:

@@ -23,7 +23,7 @@ class Moves(commands.Cog):
     @commands.command(description="Deplace un membre vers un channel vocal.")
     async def move(self, ctx, member_to_move=None, channel_dest=None):
         """
-        `!move <membre> <channel>`
+        !move <membre> <channel>
         """
         if not member_to_move or not channel_dest:
             return await show_help(ctx)
@@ -56,7 +56,7 @@ class Moves(commands.Cog):
     @commands.command(aliases=["w"], description="Deplace tous les membres War dans le channel War.")
     async def war(self, ctx):
         """
-        `!war` / `!w`
+        !war || !w
         """
         author = ctx.author
         channel = discord.utils.get(ctx.guild.voice_channels, id=WAR_CHAN)
@@ -83,7 +83,7 @@ class Moves(commands.Cog):
     @commands.command(aliases=["s"], description="Deplace un membre vers ton VC secret.")
     async def secret(self, ctx, member_to_move=None):
         """
-        `!secret <membre>` / `!s <membre>`
+        !secret <membre> || !s <membre>
         """
         if not member_to_move:
             return await show_help(ctx)
@@ -110,7 +110,7 @@ class Moves(commands.Cog):
     @commands.command(aliases=["se"], description="Sors un membre de ton VC secret.")
     async def sexit(self, ctx, member_to_move=None):
         """
-        `!sexit <membre>` / `!se <membre>`
+        !sexit <membre> || !se <membre>
         """
         if not member_to_move:
             return await show_help(ctx)
